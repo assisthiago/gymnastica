@@ -28,7 +28,32 @@ class ProfessionalAdmin(admin.ModelAdmin):
         "created_at",
         "updated_at",
     )
-    readonly_fields = ("created_at", "updated_at")
+    readonly_fields = ("list_group", "created_at", "updated_at")
     search_fields = ("user__first_name", "user__last_name")
     search_help_text = "Busque pelo nome do profissional"
     list_filter = ("branches",)
+
+
+@admin.register(models.Client)
+class ClientAdmin(admin.ModelAdmin):
+    list_display = (
+        "full_name",
+        "list_branch",
+        "phone",
+        "frequency",
+        "updated_at",
+    )
+    fields = (
+        "user",
+        "branches",
+        "cpf",
+        "phone",
+        "birth_date",
+        "frequency",
+        "created_at",
+        "updated_at",
+    )
+    readonly_fields = ("created_at", "updated_at")
+    search_fields = ("user__first_name", "user__last_name")
+    search_help_text = "Busque pelo nome do cliente"
+    list_filter = ("branches", "frequency")

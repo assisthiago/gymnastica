@@ -94,7 +94,7 @@ class User(AbstractUser):
     def list_of_groups(self):
         return ", ".join([group.name for group in self.groups.all()])
 
-    list_of_groups.short_description = "cargos"
+    list_of_groups.short_description = "grupos"
 
     class Meta:
         db_table = "core_user"

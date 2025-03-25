@@ -9,6 +9,7 @@ from app.core.models import Branch, Training, User
 @admin.register(User)
 class UserAdmin(DefaultUserAdmin):
 
+    # Queryset
     def get_queryset(self, request):
         qs = super().get_queryset(request).prefetch_related("branches")
         return qs.filter(~Q(pk=1))
@@ -64,6 +65,9 @@ class UserAdmin(DefaultUserAdmin):
         "is_active",
     ]
     list_display_links = ["change_link"]
+    list_filter = ["is_active", "groups", "branches", "frequency"]
+    search_fields = ["first_name", "last_name", "email", "cpf", "phone"]
+    search_help_text = _("Pesquisar por nome, sobrenome, email ou CPF.")
 
     @admin.display(description="#")
     def change_link(self, _):

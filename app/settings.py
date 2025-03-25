@@ -19,6 +19,8 @@ ALLOWED_HOSTS = config("ALLOWED_HOSTS", default="", cast=Csv())
 # Application definition
 
 INSTALLED_APPS = [
+    "admin_interface",
+    "colorfield",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -117,3 +119,15 @@ LOGIN_URL = "/admin/login/?next=/admin/"
 
 # Debug Toolbar
 INTERNAL_IPS = ["127.0.0.1"]
+
+# Django Admin Interface
+X_FRAME_OPTIONS = "SAMEORIGIN"
+SILENCED_SYSTEM_CHECKS = ["security.W019"]
+
+# CACHES
+# CACHES = {
+#     "admin_interface": {
+#         "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+#         "TIMEOUT": 60 * 5,
+#     },
+# }

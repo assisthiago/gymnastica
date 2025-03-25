@@ -68,7 +68,17 @@ class UserAdmin(DefaultUserAdmin):
 
 @admin.register(Branch)
 class BranchAdmin(admin.ModelAdmin):
-    pass
+    list_display = [
+        "change_link",
+        "name",
+        "created_at",
+        "updated_at",
+    ]
+    list_display_links = ["change_link"]
+
+    @admin.display(description="#")
+    def change_link(self, _):
+        return "Ver detalhes"
 
 
 @admin.register(Training)
@@ -82,6 +92,8 @@ class TrainingAdmin(admin.ModelAdmin):
         "branch",
     ]
     list_display_links = ["change_link"]
+
+    list_filter = ["branch"]
 
     @admin.display(description="#")
     def change_link(self, _):

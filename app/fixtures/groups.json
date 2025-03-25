@@ -1,0 +1,80 @@
+[
+{
+  "model": "auth.group",
+  "pk": 1,
+  "fields": {
+    "name": "Cliente",
+    "permissions": [
+      24,
+      32,
+      28
+    ]
+  }
+},
+{
+  "model": "auth.group",
+  "pk": 2,
+  "fields": {
+    "name": "Gerente",
+    "permissions": [
+      1,
+      2,
+      3,
+      4,
+      9,
+      10,
+      11,
+      12,
+      5,
+      6,
+      7,
+      8,
+      13,
+      14,
+      15,
+      16,
+      21,
+      22,
+      23,
+      24,
+      29,
+      30,
+      31,
+      32,
+      25,
+      26,
+      27,
+      28,
+      17,
+      18,
+      19,
+      20
+    ]
+  }
+},
+{
+  "model": "auth.group",
+  "pk": 3,
+  "fields": {
+    "name": "Personal",
+    "permissions": [
+      24,
+      32,
+      28
+    ]
+  }
+},
+{
+  "model": "auth.group",
+  "pk": 4,
+  "fields": {
+    "name": "Coordenador",
+    "permissions": [
+      24,
+      30,
+      32,
+      28
+    ]
+  }
+}
+]

@@ -97,7 +97,7 @@ class User(AbstractUser):
     list_of_groups.short_description = "cargos"
 
     class Meta:
-        db_table = "user"
+        db_table = "core_user"
         verbose_name = "usuário"
         verbose_name_plural = "usuários"
         ordering = ["first_name", "last_name"]

@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as DefaultUserAdmin
+from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
 
 from app.core.models import Branch, Training, User
@@ -7,6 +8,10 @@ from app.core.models import Branch, Training, User
 
 @admin.register(User)
 class UserAdmin(DefaultUserAdmin):
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request).prefetch_related("branches")
+        return qs.filter(~Q(pk=1))
 
     # Add/Change view
     fieldsets = (
@@ -39,7 +44,6 @@ class UserAdmin(DefaultUserAdmin):
                 "fields": (
                     "is_active",
                     "is_staff",
-                    "is_superuser",
                     "groups",
                 ),
             },
@@ -47,7 +51,7 @@ class UserAdmin(DefaultUserAdmin):
         (_("Important dates"), {"fields": ("last_login", "date_joined")}),
     )
     readonly_fields = ["last_login", "date_joined"]
-    filter_horizontal = ["groups", "user_permissions", "branches"]
+    filter_horizontal = ["groups", "branches"]
     radio_fields = {"frequency": admin.VERTICAL}
 
     # Change list view

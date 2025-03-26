@@ -21,6 +21,47 @@ class Branch(models.Model):
         ordering = ["name"]
 
 
+class TrainingDay(models.Model):
+
+    DAY_CHOICES = [
+        ("1", "Domingo"),
+        ("2", "Segunda-feira"),
+        ("3", "Terça-feira"),
+        ("4", "Quarta-feira"),
+        ("5", "Quinta-feira"),
+        ("6", "Sexta-feira"),
+        ("7", "Sábado"),
+    ]
+
+    DAY_ABBREVIATIONS = {
+        "1": "Dom.",
+        "2": "Seg.",
+        "3": "Ter.",
+        "4": "Qua.",
+        "5": "Qui.",
+        "6": "Sex.",
+        "7": "Sáb.",
+    }
+
+    # Fields
+    name = models.CharField("nome", max_length=100, choices=DAY_CHOICES, unique=True)
+    created_at = models.DateTimeField("criado em", auto_now_add=True)
+    updated_at = models.DateTimeField("atualizado em", auto_now=True)
+
+    # Functions
+    def __str__(self):
+        return self.get_name_display()
+
+    def get_abbreviation(self):
+        return self.DAY_ABBREVIATIONS[self.name]
+
+    class Meta:
+        db_table = "training_day"
+        verbose_name = "dia do treino"
+        verbose_name_plural = "dias do treino"
+        ordering = ["name"]
+
+
 class User(AbstractUser):
 
     FREQUENCY_CHOICES = [
@@ -29,8 +70,25 @@ class User(AbstractUser):
         ("3", "3x por semana"),
         ("4", "4x por semana"),
         ("5", "5x por semana"),
-        ("6", "6x por semana"),
-        ("7", "7x por semana"),
+    ]
+
+    TIME_CHOICES = [
+        ("6", "06:00"),
+        ("7", "07:00"),
+        ("8", "08:00"),
+        ("9", "09:00"),
+        ("10", "10:00"),
+        ("11", "11:00"),
+        ("12", "12:00"),
+        ("13", "13:00"),
+        ("14", "14:00"),
+        ("15", "15:00"),
+        ("16", "16:00"),
+        ("17", "17:00"),
+        ("18", "18:00"),
+        ("19", "19:00"),
+        ("20", "20:00"),
+        ("21", "21:00"),
     ]
 
     # Fields
@@ -58,10 +116,10 @@ class User(AbstractUser):
         null=True,
         default=None,
     )
-    frequency = models.CharField(
-        "frequência",
-        max_length=1,
-        choices=FREQUENCY_CHOICES,
+    time = models.CharField(
+        "horário",
+        max_length=2,
+        choices=TIME_CHOICES,
         blank=True,
         null=True,
         default=None,
@@ -71,6 +129,11 @@ class User(AbstractUser):
     branches = models.ManyToManyField(
         Branch,
         verbose_name="unidades",
+        related_name="users",
+    )
+    training_days = models.ManyToManyField(
+        TrainingDay,
+        verbose_name="dias do treino",
         related_name="users",
     )
 
@@ -91,6 +154,16 @@ class User(AbstractUser):
 
     list_of_branches.short_description = "unidades"
 
+    def list_of_training_days(self):
+        return ", ".join(
+            [
+                training_day.get_abbreviation()
+                for training_day in self.training_days.all()
+            ]
+        )
+
+    list_of_training_days.short_description = "dias do treino"
+
     def list_of_groups(self):
         return ", ".join([group.name for group in self.groups.all()])
 
@@ -100,7 +173,6 @@ class User(AbstractUser):
         db_table = "core_user"
         verbose_name = "usuário"
         verbose_name_plural = "usuários"
-        ordering = ["first_name", "last_name"]
 
 
 class Training(models.Model):

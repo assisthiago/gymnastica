@@ -1,0 +1,65 @@
+[
+{
+  "model": "core.trainingday",
+  "pk": 1,
+  "fields": {
+    "name": "1",
+    "created_at": "2025-03-26T20:45:55.764Z",
+    "updated_at": "2025-03-26T20:45:55.764Z"
+  }
+},
+{
+  "model": "core.trainingday",
+  "pk": 2,
+  "fields": {
+    "name": "2",
+    "created_at": "2025-03-26T20:45:58.446Z",
+    "updated_at": "2025-03-26T20:45:58.446Z"
+  }
+},
+{
+  "model": "core.trainingday",
+  "pk": 3,
+  "fields": {
+    "name": "3",
+    "created_at": "2025-03-26T20:46:00.698Z",
+    "updated_at": "2025-03-26T20:46:00.698Z"
+  }
+},
+{
+  "model": "core.trainingday",
+  "pk": 4,
+  "fields": {
+    "name": "4",
+    "created_at": "2025-03-26T20:46:03.130Z",
+    "updated_at": "2025-03-26T20:46:03.130Z"
+  }
+},
+{
+  "model": "core.trainingday",
+  "pk": 5,
+  "fields": {
+    "name": "5",
+    "created_at": "2025-03-26T20:46:05.748Z",
+    "updated_at": "2025-03-26T20:46:05.748Z"
+  }
+},
+{
+  "model": "core.trainingday",
+  "pk": 6,
+  "fields": {
+    "name": "6",
+    "created_at": "2025-03-26T20:46:08.097Z",
+    "updated_at": "2025-03-26T20:46:08.097Z"
+  }
+},
+{
+  "model": "core.trainingday",
+  "pk": 7,
+  "fields": {
+    "name": "7",
+    "created_at": "2025-03-26T20:46:10.130Z",
+    "updated_at": "2025-03-26T20:46:10.130Z"
+  }
+}
+]

@@ -3,6 +3,8 @@ from django.contrib.auth.admin import UserAdmin as DefaultUserAdmin
 from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
 
+from app.core.filters import PersonalListFilter
+from app.core.forms import TrainingForm
 from app.core.models import Branch, Training, TrainingDay, User
 
 
@@ -35,7 +37,7 @@ class UserAdmin(DefaultUserAdmin):
             {"fields": ("branches", "training_days", "time")},
         ),
         (
-            _("Permissions"),
+            _("Permissões"),
             {
                 "fields": (
                     "is_active",
@@ -44,7 +46,7 @@ class UserAdmin(DefaultUserAdmin):
                 ),
             },
         ),
-        (_("Important dates"), {"fields": ("last_login", "date_joined")}),
+        (_("Datas importantes"), {"fields": ("last_login", "date_joined")}),
     )
     readonly_fields = ["last_login", "date_joined"]
     filter_horizontal = ["groups", "branches", "training_days"]
@@ -97,16 +99,54 @@ class TrainingDayAdmin(admin.ModelAdmin):
 @admin.register(Training)
 class TrainingAdmin(admin.ModelAdmin):
 
+    # Add/Change view
+    form = TrainingForm
+    fieldsets = (
+        (None, {"fields": ("date", "time", "branch")}),
+        (
+            _("Atendimento"),
+            {
+                "fields": (
+                    "personal",
+                    "clients",
+                )
+            },
+        ),
+        (
+            _("Datas importantes"),
+            {
+                "fields": (
+                    "created_at",
+                    "updated_at",
+                )
+            },
+        ),
+    )
+    filter_horizontal = ["clients"]
+    radio_fields = {"personal": admin.VERTICAL}
+    readonly_fields = ["created_at", "updated_at"]
+
     # Change list view
+    date_hierarchy = "date"
     list_display = [
         "change_link",
         "date",
-        "time",
+        "time_formatted",
+        "day_of_week",
+        "personal",
+        "list_of_clients",
         "branch",
     ]
     list_display_links = ["change_link"]
-
-    list_filter = ["branch"]
+    list_filter = [PersonalListFilter, "branch", "date"]
+    search_fields = [
+        "personal__first_name",
+        "personal__last_name",
+        "clients__first_name",
+        "clients__last_name",
+    ]
+    search_help_text = _("Pesquisar por nome personal ou do cliente.")
+    ordering = ["-date", "time"]
 
     @admin.display(description="#")
     def change_link(self, _):

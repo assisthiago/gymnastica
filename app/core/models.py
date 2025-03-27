@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinLengthValidator
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 
 class Branch(models.Model):
@@ -201,6 +202,26 @@ class Training(models.Model):
         verbose_name="clientes",
         related_name="client_trainings",
     )
+
+    # Functions
+    def __str__(self):
+        _date = f"{self.date.strftime('%d')} de {_(self.date.strftime('%B'))} de {self.date.strftime('%Y')}"
+        return f"{_date} | {self.day_of_week()} | {self.time_formatted()} | {self.personal.full_name()}"
+
+    def time_formatted(self):
+        return self.time.strftime("%H:%M")
+
+    time_formatted.short_description = "horário"
+
+    def day_of_week(self):
+        return _(self.date.strftime("%A"))
+
+    day_of_week.short_description = "dia da semana"
+
+    def list_of_clients(self):
+        return ", ".join([client.full_name() for client in self.clients.all()])
+
+    list_of_clients.short_description = "clientes"
 
     class Meta:
         db_table = "training"
